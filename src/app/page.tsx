@@ -1,8 +1,11 @@
+'use client';
 import { BodyContainer } from "@/components/BodyContainer";
 import { CardContainer } from "@/components/CardContainer";
+import { FormModal } from "@/components/FormModal";
 import { Header } from "@/components/Header";
 import { Table } from "@/components/Table";
 import { ITransaction } from "@/types/transaction";
+import { useState } from "react";
 
 const transactions:ITransaction[] = [
   {
@@ -40,13 +43,15 @@ const transactions:ITransaction[] = [
 ];
 
 export default function Home() {
+  const [isFormModalOpen, setIsFormModalOpen] = useState(false);
   return (
     <div className="h-full min-h-screen">
-      <Header />
+      <Header handleOpenFormModal={() => setIsFormModalOpen(true)}/>
       <BodyContainer>
          <CardContainer />
          <Table data={transactions} />
       </BodyContainer>
+      {isFormModalOpen && <FormModal closeModal={() => setIsFormModalOpen(false)} title="Criar Transação" addTransaction={() => console.log('oi')} />}
     </div>
   );
 }

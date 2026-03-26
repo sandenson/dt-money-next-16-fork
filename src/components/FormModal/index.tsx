@@ -28,7 +28,19 @@ export const FormModal = ({ title, closeModal, addTransaction }: FormModalProps)
                         <span className="text-2xl">&times;</span>
                     </button>
 
-                    
+                     <div className="bg-modal px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                        <div className="sm:flex sm:items-start">
+                            <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                                <h1
+                                    className="font-semibold leading-9 text-title text-2xl"
+                                    id="modal-title"
+                                >
+                                    {title}
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+
 
                 </div>
            </div>

@@ -5,6 +5,7 @@ import { FormModal } from "@/components/FormModal";
 import { Header } from "@/components/Header";
 import { Table } from "@/components/Table";
 import { ITransaction, TotalCard } from "@/types/transaction";
+import Link from "next/link";
 import { useMemo, useState } from "react";
 
 const transactions:ITransaction[] = [
@@ -69,8 +70,24 @@ export default function Home() {
     <div className="h-full min-h-screen">
       <Header handleOpenFormModal={() => setIsFormModalOpen(true)}/>
       <BodyContainer>
-         <CardContainer totalValues={calculaTotal} />
-         <Table data={transactionData} />
+          <CardContainer totalValues={calculaTotal} />
+          <Table data={transactionData} />
+          <div className="flex flex-col text-center">
+            <Link
+              href="https://www.flaticon.com/free-icons/edit"
+              title="edit icons"
+              className="text-black"
+            >
+              Edit icons created by Pixel perfect - Flaticon
+            </Link>
+            <Link
+              href="https://www.flaticon.com/free-icons/recycle-bin"
+              title="recycle bin icons"
+              className="text-black"
+            >
+              Recycle bin icons created by hqrloveq - Flaticon
+            </Link>
+          </div>
       </BodyContainer>
       {isFormModalOpen && <FormModal 
           closeModal={() => setIsFormModalOpen(false)} 

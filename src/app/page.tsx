@@ -45,10 +45,23 @@ const transactions:ITransaction[] = [
 
 export default function Home() {
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+  const [isFormModalEdit, setIsFormModalEdit] = useState(false);
   const [transactionData, setTransactionData] = useState(transactions);
+  const [editedTransaction, setEditedTransaction] = useState<ITransaction | undefined>(undefined);
 
   const handleAddTransaction = (transaction: ITransaction) => {
     setTransactionData( (prevState)=> [...prevState, transaction]);
+  }
+
+  const handleEditTransaction = (transaction: ITransaction) => {
+    setTransactionData( (prevState)=> {
+      const copy = [...prevState];
+
+      const index = copy.findIndex(t => t.id = transaction.id);
+      copy.splice(index, 1, transaction)
+
+      return copy;
+    });
   }
 
   const calculaTotal = useMemo(() => {
@@ -71,12 +84,17 @@ export default function Home() {
       <Header handleOpenFormModal={() => setIsFormModalOpen(true)}/>
       <BodyContainer>
           <CardContainer totalValues={calculaTotal} />
-          <Table data={transactionData} />
+          <Table data={transactionData} handleOpenFormModal={(transaction: ITransaction) => {
+            setIsFormModalOpen(true);
+            setIsFormModalEdit(true);
+            setEditedTransaction(transaction);
+          }} />
           <div className="flex flex-col text-center">
             <Link
               href="https://www.flaticon.com/free-icons/edit"
               title="edit icons"
               className="text-black"
+              target="_blank"
             >
               Edit icons created by Pixel perfect - Flaticon
             </Link>
@@ -84,15 +102,22 @@ export default function Home() {
               href="https://www.flaticon.com/free-icons/recycle-bin"
               title="recycle bin icons"
               className="text-black"
+              target="_blank"
             >
               Recycle bin icons created by hqrloveq - Flaticon
             </Link>
           </div>
       </BodyContainer>
       {isFormModalOpen && <FormModal 
-          closeModal={() => setIsFormModalOpen(false)} 
-          title="Criar Transação" 
-          addTransaction={handleAddTransaction} />}
+          closeModal={() => {
+            setIsFormModalOpen(false);
+            setIsFormModalEdit(false);
+          }} 
+          title={`${isFormModalEdit ? "Editar" : "Criar" } Transação`}
+          addTransaction={handleAddTransaction}
+          editTransaction={handleEditTransaction}
+          edit={isFormModalEdit}
+          transaction={isFormModalEdit ? editedTransaction : undefined} />}
     </div>
   );
 }

@@ -1,6 +1,7 @@
 'use client';
 import { BodyContainer } from "@/components/BodyContainer";
 import { CardContainer } from "@/components/CardContainer";
+import { ConfirmModal } from "@/components/ConfirmModal";
 import { FormModal } from "@/components/FormModal";
 import { Header } from "@/components/Header";
 import { Table } from "@/components/Table";
@@ -48,7 +49,8 @@ export default function Home() {
   const [isFormModalEdit, setIsFormModalEdit] = useState(false);
   const [transactionData, setTransactionData] = useState(transactions);
   const [editedTransaction, setEditedTransaction] = useState<ITransaction | undefined>(undefined);
-
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  
   const handleAddTransaction = (transaction: ITransaction) => {
     setTransactionData( (prevState)=> [...prevState, transaction]);
   }
@@ -59,6 +61,17 @@ export default function Home() {
 
       const index = copy.findIndex(t => t.id = transaction.id);
       copy.splice(index, 1, transaction)
+
+      return copy;
+    });
+  }
+
+  const handleDeleteTransaction = (transaction: ITransaction) => {
+    setTransactionData( (prevState)=> {
+      const copy = [...prevState];
+
+      const index = copy.findIndex(t => t.id = transaction.id);
+      copy.splice(index, 1)
 
       return copy;
     });
@@ -88,6 +101,9 @@ export default function Home() {
             setIsFormModalOpen(true);
             setIsFormModalEdit(true);
             setEditedTransaction(transaction);
+          }} handleOpenConfirmModal={(transaction: ITransaction) => {
+            setIsConfirmModalOpen(true);
+            setEditedTransaction(transaction);
           }} />
           <div className="flex flex-col text-center">
             <Link
@@ -106,6 +122,14 @@ export default function Home() {
             >
               Recycle bin icons created by hqrloveq - Flaticon
             </Link>
+            <Link
+              href="https://www.flaticon.com/free-icons/important"
+              title="important icons"
+              className="text-black"
+              target="_blank"
+            >
+              Important icons created by HideMaru - Flaticon
+            </Link>
           </div>
       </BodyContainer>
       {isFormModalOpen && <FormModal 
@@ -118,6 +142,16 @@ export default function Home() {
           editTransaction={handleEditTransaction}
           edit={isFormModalEdit}
           transaction={isFormModalEdit ? editedTransaction : undefined} />}
+      {isConfirmModalOpen && <ConfirmModal
+        title="Deletar transação?"
+        confirmation={(test: boolean) => {
+          if (test) {
+            handleDeleteTransaction(editedTransaction!)
+          }
+          setEditedTransaction(undefined);
+        }}
+        closeModal={() => setIsConfirmModalOpen(false)}
+      />}
     </div>
   );
 }

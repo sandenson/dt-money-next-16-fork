@@ -5,8 +5,9 @@ import Image from "next/image";
 export type TableProps = {
     data: ITransaction[];
     handleOpenFormModal: (transaction: ITransaction) => void;
+    handleOpenConfirmModal: (transaction: ITransaction) => void;
 }
-export const Table = ({ data, handleOpenFormModal }: TableProps) => {
+export const Table = ({ data, handleOpenFormModal, handleOpenConfirmModal }: TableProps) => {
     return <>
         <table className="w-full mt-16 border-separate border-spacing-y-2">
             <thead>
@@ -27,12 +28,20 @@ export const Table = ({ data, handleOpenFormModal }: TableProps) => {
                    <td className="px-4 py-4 whitespace-nowrap text-title bg-white">{transaction.category} </td>
                    <td className="px-4 py-4 whitespace-nowrap text-title bg-white">{formatDate(transaction.data)} </td>
                    <td className="px-4 py-4 whitespace-nowrap text-title bg-white">
-                    <button type="button" className="cursor-pointer" onClick={() => handleOpenFormModal(transaction)}>
+                    <button
+                        type="button"
+                        className="cursor-pointer"
+                        onClick={() => handleOpenFormModal(transaction)}
+                    >
                         <Image src={'/images/edit.png'} alt={`edit icon`} width={24} height={24} />
                     </button>
                    </td>
                    <td className="px-4 py-4 whitespace-nowrap text-title bg-white rounded-r-lg">
-                    <button type="button" className="cursor-pointer">
+                    <button
+                        type="button"
+                        className="cursor-pointer"
+                        onClick={() => handleOpenConfirmModal(transaction)}
+                    >
                         <Image src={'/images/delete.png'} alt={`delete icon`} width={24} height={24} />
                     </button>
                    </td>

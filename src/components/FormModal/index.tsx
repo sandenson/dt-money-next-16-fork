@@ -62,7 +62,7 @@ export const FormModal = ({
 
        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
            <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                <div className="relative transform overflow-hidden rounder-lg  bg-modal text-left shadow-xl sm:w-full sm:max-w-lg">
+                <div className="relative transform overflow-hidden rounded-md  bg-modal text-left shadow-xl sm:w-full sm:max-w-lg">
                     <button type="button" className="absolute top-0 right-0 mt-4 mr-5 text-gray-400 hover:text-gray-600"
                      onClick={closeModal}
                      aria-label="Fechar"
